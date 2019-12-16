@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class JsonKnife {
     private static boolean debug = true;
     private static final Map<Class<?>, Method> BINDINGS = new LinkedHashMap<>();
 
-    public static JSONObject convert(Object obj) {
+    public static JSONObject convertSilence(Object obj) {
         JSONObject jsonObject = null;
         try {
             Method toJsonMethod = findToJsonMethod(obj);
@@ -29,6 +30,13 @@ public class JsonKnife {
         }
         return jsonObject;
     }
+
+    public static JSONObject convert(Object obj) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException {
+        Method toJsonMethod = findToJsonMethod(obj);
+        toJsonMethod.setAccessible(true);
+        return (JSONObject) toJsonMethod.invoke(null, obj);
+    }
+
 
     private static Method findToJsonMethod(Object obj) throws IllegalStateException, ClassNotFoundException {
         Class<?> cls = obj.getClass();
@@ -41,7 +49,7 @@ public class JsonKnife {
         }
         Package clsPkg = cls.getPackage();
         String pkgName = clsPkg == null ? "" : clsPkg.getName();
-        Class<?> utilClass = cls.getClassLoader().loadClass(pkgName + ".JsonAbleUtil");
+        Class<?> utilClass = cls.getClassLoader().loadClass(pkgName + ".Json_Able_Util");
         Method[] methods;
         try {
             methods = utilClass.getDeclaredMethods();

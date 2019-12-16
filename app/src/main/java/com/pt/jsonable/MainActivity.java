@@ -14,6 +14,7 @@ import com.pt.jsonable.bean.User;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +60,12 @@ public class MainActivity extends AppCompatActivity {
                 new Factory("USA","Google",5200f),
                 maybePits
                 );
-        JSONObject convert = JsonKnife.convert(user);
+        JSONObject convert = null;
+        try {
+            convert = JsonKnife.convert(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Log.e(TAG,"convert user = \r\n"+convert);
     }
 

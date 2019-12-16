@@ -43,9 +43,10 @@ import javax.tools.Diagnostic;
 @AutoService(Processor.class)
 public class JsonAbleProcessor extends AbstractProcessor {
     private static final ClassName JSONOBJECT_CLASSNAME = ClassName.get("org.json", "JSONObject");
+    private static final ClassName JSONARRAY_CLASSNAME = ClassName.get(" org.json", "JSONArray");
+    private static final ClassName JSONEXCEPTION_CLASSNAME = ClassName.get("org.json", "JSONException");
     private static final String COLLECTION_TYPE = Collection.class.getCanonicalName();
     private static final String STRING_TYPE = String.class.getCanonicalName();
-    private static final ClassName JSONARRAY_CLASSNAME = ClassName.get(" org.json", "JSONArray");
 
     private Elements elementUtils;
     private Types typeUtils;
@@ -86,9 +87,9 @@ public class JsonAbleProcessor extends AbstractProcessor {
                 MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder("toJson")
                         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                         .addParameter(ClassName.get(typeElement.asType()), "source")
+                        .addException(JSONEXCEPTION_CLASSNAME)
                         .returns(JSONOBJECT_CLASSNAME);
                 methodSpecBuilder.addStatement("JSONObject json = new JSONObject()");
-                methodSpecBuilder.addCode("try{\n");
                 List<? extends Element> members = elementUtils.getAllMembers(typeElement);
                 for (Element item : members) {
                     if (item.getKind() == ElementKind.FIELD) {
@@ -123,7 +124,7 @@ public class JsonAbleProcessor extends AbstractProcessor {
 
                                 methodSpecBuilder.addStatement("$T $LJA = new JSONArray()", JSONARRAY_CLASSNAME, item);
                                 methodSpecBuilder.addCode("for ($T item : $LList){\n", componentType, item);
-                                String code = String.format("$LJA.put(%s.JsonAbleUtil.toJson(item))", getPackageName(elementUtils.getTypeElement(componentType.toString())));
+                                String code = String.format("$LJA.put(%s.Json_Able_Util.toJson(item))", getPackageName(elementUtils.getTypeElement(componentType.toString())));
                                 methodSpecBuilder.addStatement(code, item.getSimpleName());
                                 methodSpecBuilder.addCode("}\n");
 
@@ -145,10 +146,10 @@ public class JsonAbleProcessor extends AbstractProcessor {
                         if (itemTypeElement != null && itemTypeElement.getAnnotation(JSONAble.class) != null) {
                             if (modifiers.isEmpty() || modifiers.contains(Modifier.PRIVATE)) {
                                 Element itemGetMethod = findGetMethod(members, item);
-                                String code = String.format("json.put($S,%s.JsonAbleUtil.toJson(source.$L))", getPackageName(itemTypeElement));
+                                String code = String.format("json.put($S,%s.Json_Able_Util.toJson(source.$L))", getPackageName(itemTypeElement));
                                 methodSpecBuilder.addStatement(code, item.getSimpleName(), itemGetMethod);
                             } else {
-                                String code = String.format("json.put($S,%s.JsonAbleUtil.toJson(source.$L))", getPackageName(itemTypeElement));
+                                String code = String.format("json.put($S,%s.Json_Able_Util.toJson(source.$L))", getPackageName(itemTypeElement));
                                 methodSpecBuilder.addStatement(code, item.getSimpleName(), item);
                             }
                         } else {
@@ -161,12 +162,11 @@ public class JsonAbleProcessor extends AbstractProcessor {
                         }
                     }
                 }
-                methodSpecBuilder.addCode("} catch (Exception e) {\ne.printStackTrace();\n}\n");
                 methodSpecBuilder.addStatement("return json");
                 methodList.add(methodSpecBuilder.build());
             }
             //generate java file
-            TypeSpec typeSpec = TypeSpec.classBuilder("JsonAbleUtil")
+            TypeSpec typeSpec = TypeSpec.classBuilder("Json_Able_Util")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                     .addMethods(methodList)
                     .build();
