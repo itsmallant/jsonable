@@ -1,0 +1,2 @@
+include ':app', ':jsonable', ':jsonable-annotation', ':jsonable-compiler'
+rootProject.name='JsonAble'
