@@ -114,7 +114,18 @@ public class JsonAbleProcessor extends AbstractProcessor {
                             isArrayOrCollection = false;
                         }
                         if (isArrayOrCollection) {
-                            if (componentType != null && elementUtils.getTypeElement(componentType.toString()).getAnnotation(JSONAble.class) != null) {
+
+                            boolean isJsonAble = false;
+                            if (componentType != null){
+                                TypeElement componentTypeElement = elementUtils.getTypeElement(componentType.toString());
+                                if (componentTypeElement != null && componentTypeElement.getAnnotation(JSONAble.class) != null){
+                                    isJsonAble = true;
+                                }else if (componentTypeElement == null){
+                                    processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "内容元素为空 item = "+item);
+                                }
+                            }
+
+                            if (isJsonAble) {
                                 if (modifiers.isEmpty() || modifiers.contains(Modifier.PRIVATE)) {
                                     Element itemGetMethod = findGetMethod(members, item);
                                     methodSpecBuilder.addStatement("$T $LList = source.$L", item, item, itemGetMethod);
