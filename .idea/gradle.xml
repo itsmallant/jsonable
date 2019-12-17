@@ -9,9 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/jsonable" />
             <option value="$PROJECT_DIR$/jsonable-annotation" />
             <option value="$PROJECT_DIR$/jsonable-compiler" />
+            <option value="$PROJECT_DIR$/jsonable-runtime" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -1,0 +1,24 @@
+-classpath
+'/Users/ningqiang/StudioProjects/JsonAble/jsonable-annotation/target/classes'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/ningqiang/StudioProjects/JsonAble/jsonable-annotation/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2019. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/ningqiang/StudioProjects/JsonAble/jsonable-annotation/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'jsonable-annotation 0.0.1 API'
+-linkoffline
+'http://docs.oracle.com/javase/7/docs/api' '/Users/ningqiang/StudioProjects/JsonAble/jsonable-annotation/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'jsonable-annotation 0.0.1 API'
