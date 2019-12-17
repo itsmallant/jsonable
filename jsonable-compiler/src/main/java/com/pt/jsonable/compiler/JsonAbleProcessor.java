@@ -89,6 +89,7 @@ public class JsonAbleProcessor extends AbstractProcessor {
                         .addParameter(ClassName.get(typeElement.asType()), "source")
                         .addException(JSONEXCEPTION_CLASSNAME)
                         .returns(JSONOBJECT_CLASSNAME);
+                methodSpecBuilder.addStatement("if(source == null) return null");
                 methodSpecBuilder.addStatement("JSONObject json = new JSONObject()");
                 List<? extends Element> members = elementUtils.getAllMembers(typeElement);
                 for (Element item : members) {
