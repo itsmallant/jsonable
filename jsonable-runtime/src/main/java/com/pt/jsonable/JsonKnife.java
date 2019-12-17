@@ -33,8 +33,13 @@ public class JsonKnife {
 
     public static JSONObject convert(Object obj) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException {
         Method toJsonMethod = findToJsonMethod(obj);
-        toJsonMethod.setAccessible(true);
-        return (JSONObject) toJsonMethod.invoke(null, obj);
+        if (toJsonMethod == null){
+            throw new IllegalArgumentException(obj+" not found mapping toJson method. is "+obj.getClass()+" add @JSONAble annotation?" );
+        }else {
+            toJsonMethod.setAccessible(true);
+            return (JSONObject) toJsonMethod.invoke(null, obj);
+        }
+
     }
 
 
