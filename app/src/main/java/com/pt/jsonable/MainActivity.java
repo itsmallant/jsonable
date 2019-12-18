@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.pt.jsonable.bean.Factory;
 import com.pt.jsonable.bean.Goods;
-import com.pt.jsonable.bean.Pit;
 import com.pt.jsonable.bean.User;
+import com.pt.thirdlib.Pit;
 
 import org.json.JSONObject;
 
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         JSONObject convert = null;
         try {
             long start1 = System.currentTimeMillis();
-            for (int i = 0; i < 10000; i++) {
+            for (int i = 0; i < 1; i++) {
                 convert = JsonKnife.convert(user);
             }
             long end1 = System.currentTimeMillis();
@@ -74,24 +72,24 @@ public class MainActivity extends AppCompatActivity {
         Log.e(TAG, "convert user = \r\n" + convert);
 
 
-        long start2 = System.currentTimeMillis();
-        String toJson = null;
-        for (int i = 0; i < 10000; i++) {
-            toJson = new Gson().toJson(user);
-        }
-        long end2 = System.currentTimeMillis();
-        Log.e(TAG, "convert user toJson cost = " + (end2 - start2));
-        Log.e(TAG, "convert user toJson = \r\n" + toJson);
-
-        long start3 = System.currentTimeMillis();
-        JsonElement toJsonTree = null;
-        for (int i = 0; i < 10000; i++) {
-            toJsonTree = new Gson().toJsonTree(user);
-        }
-        long end3 = System.currentTimeMillis();
-        Log.e(TAG, "convert user toJsonTree cost = " + (end3 - start3));
-
-        Log.e(TAG, "convert user toJsonTree = \r\n" + toJsonTree);
+//        long start2 = System.currentTimeMillis();
+//        String toJson = null;
+//        for (int i = 0; i < 10000; i++) {
+//            toJson = new Gson().toJson(user);
+//        }
+//        long end2 = System.currentTimeMillis();
+//        Log.e(TAG, "convert user toJson cost = " + (end2 - start2));
+//        Log.e(TAG, "convert user toJson = \r\n" + toJson);
+//
+//        long start3 = System.currentTimeMillis();
+//        JsonElement toJsonTree = null;
+//        for (int i = 0; i < 10000; i++) {
+//            toJsonTree = new Gson().toJsonTree(user);
+//        }
+//        long end3 = System.currentTimeMillis();
+//        Log.e(TAG, "convert user toJsonTree cost = " + (end3 - start3));
+//
+//        Log.e(TAG, "convert user toJsonTree = \r\n" + toJsonTree);
     }
 
     private static final String TAG = "MainActivity";

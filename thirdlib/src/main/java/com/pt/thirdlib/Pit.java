@@ -1,4 +1,4 @@
-package com.pt.jsonable.bean;
+package com.pt.thirdlib;
 
 /**
  * @desc:
@@ -6,6 +6,7 @@ package com.pt.jsonable.bean;
  * @time: 2019-12-16 16:34
  **/
 @com.pt.jsonable.annotation.JSONAble
+@Koto
 public class Pit {
     public String name;
     public int id;

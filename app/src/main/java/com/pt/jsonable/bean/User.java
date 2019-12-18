@@ -1,5 +1,7 @@
 package com.pt.jsonable.bean;
 
+import com.pt.thirdlib.Pit;
+
 import java.util.ArrayList;
 import java.util.Collection;
 

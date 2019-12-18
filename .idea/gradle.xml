@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/jsonable-annotation" />
             <option value="$PROJECT_DIR$/jsonable-compiler" />
             <option value="$PROJECT_DIR$/jsonable-runtime" />
+            <option value="$PROJECT_DIR$/thirdlib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

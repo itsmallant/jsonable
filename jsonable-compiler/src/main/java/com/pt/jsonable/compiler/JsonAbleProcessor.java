@@ -117,13 +117,14 @@ public class JsonAbleProcessor extends AbstractProcessor {
                         if (isArrayOrCollection) {
 
                             boolean isJsonAble = false;
-                            if (componentType != null){
-                                TypeElement componentTypeElement = elementUtils.getTypeElement(componentType.toString());
-                                if (componentTypeElement != null && componentTypeElement.getAnnotation(JSONAble.class) != null){
+                            if (componentType != null) {
+                                TypeElement componentTypeElement = getTypeElement(componentType);
+                                if (componentTypeElement != null && componentTypeElement.getAnnotation(JSONAble.class) != null) {
                                     isJsonAble = true;
-                                }else if (componentTypeElement == null){
-                                    processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "内容元素为空 item = "+item);
+                                } else if (componentTypeElement == null) {
+                                    log(Diagnostic.Kind.WARNING, "内容元素为空 item = " + item);
                                 }
+                                //log(Diagnostic.Kind.ERROR,"内容元素为 item = "+item+" componentTypeElement = "+componentTypeElement+" isJsonAble = "+isJsonAble+" componentType = "+componentType);
                             }
 
                             if (isJsonAble) {
@@ -135,15 +136,15 @@ public class JsonAbleProcessor extends AbstractProcessor {
                                 }
 
                                 methodSpecBuilder.addStatement("$T $LJA = new JSONArray()", JSONARRAY_CLASSNAME, item);
-                                methodSpecBuilder.addCode("for ($T item : $LList){\n", componentType, item);
-                                String code = String.format("$LJA.put(%s.Json_Able_Util.toJson(item))", getPackageName(elementUtils.getTypeElement(componentType.toString())));
+                                methodSpecBuilder.addCode("for ($T item : $LList){\n", getTypeElement(componentType), item);
+                                String code = String.format("$LJA.put(%s.Json_Able_Util.toJson(item))", getPackageName(getTypeElement(componentType)));
                                 methodSpecBuilder.addStatement(code, item.getSimpleName());
                                 methodSpecBuilder.addCode("}\n");
 
                                 methodSpecBuilder.addStatement("json.put($S,$LJA)", item.getSimpleName(), item.getSimpleName());
                                 continue;
                             } else {
-                                if (componentType != null && (componentType.getKind().isPrimitive() || STRING_TYPE.equals(componentType.toString()))){
+                                if (componentType != null && (componentType.getKind().isPrimitive() || STRING_TYPE.equals(componentType.toString()))) {
                                     if (modifiers.isEmpty() || modifiers.contains(Modifier.PRIVATE)) {
                                         Element itemGetMethod = findGetMethod(members, item);
                                         methodSpecBuilder.addStatement("json.put($S,new $T(source.$L))", item.getSimpleName(), JSONARRAY_CLASSNAME, itemGetMethod);
@@ -191,6 +192,19 @@ public class JsonAbleProcessor extends AbstractProcessor {
             }
         }
         return false;
+    }
+
+    private void log(Diagnostic.Kind level, CharSequence charSequence) {
+        processingEnv.getMessager().printMessage(level, charSequence);
+    }
+
+
+    private TypeElement getTypeElement(TypeMirror typeMirror) {
+        String typeMirrorName;
+        if (typeMirror == null || (typeMirrorName = typeMirror.toString().trim()).length() == 0){
+            return null;
+        }
+        return elementUtils.getTypeElement(typeMirrorName.replaceFirst("\\?", "").replaceFirst("extends", "").trim());
     }
 
     /**
