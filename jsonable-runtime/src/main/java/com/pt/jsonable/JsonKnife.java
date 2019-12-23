@@ -54,7 +54,7 @@ public class JsonKnife {
         }
         Package clsPkg = cls.getPackage();
         String pkgName = clsPkg == null ? "" : clsPkg.getName();
-        Class<?> utilClass = cls.getClassLoader().loadClass(pkgName + ".Json_Able_Util");
+        Class<?> utilClass = cls.getClassLoader().loadClass(pkgName + ".JSONAbleUtil");
         Method[] methods;
         try {
             methods = utilClass.getDeclaredMethods();

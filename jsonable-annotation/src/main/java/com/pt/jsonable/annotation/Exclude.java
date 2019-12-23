@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @desc:
+ * @desc: 排除不需要的字段，为要生产JSONObject的类的字段增加这个注解会排除掉
  * @author: ningqiang.zhao
  * @time: 2019-12-12 14:11
  **/

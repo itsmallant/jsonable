@@ -24,6 +24,8 @@ public class User {
 
     public ArrayList<Pit> maybePits;
 
+    public ArrayList<Object> mObjects;
+
 
     public User(String name, int age, Collection<Goods> buyedGoods, Goods[] hateGoods, String[] followers, Pit[] lovePits, ArrayList<Pit> hatePits, Factory workFactory, ArrayList<Pit> maybePits) {
         this.name = name;

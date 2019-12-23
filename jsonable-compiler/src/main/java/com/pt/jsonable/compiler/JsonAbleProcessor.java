@@ -137,7 +137,7 @@ public class JsonAbleProcessor extends AbstractProcessor {
 
                                 methodSpecBuilder.addStatement("$T $LJA = new JSONArray()", JSONARRAY_CLASSNAME, item);
                                 methodSpecBuilder.addCode("for ($T item : $LList){\n", getTypeElement(componentType), item);
-                                String code = String.format("$LJA.put(%s.Json_Able_Util.toJson(item))", getPackageName(getTypeElement(componentType)));
+                                String code = String.format("$LJA.put(%s.JSONAbleUtil.toJson(item))", getPackageName(getTypeElement(componentType)));
                                 methodSpecBuilder.addStatement(code, item.getSimpleName());
                                 methodSpecBuilder.addCode("}\n");
 
@@ -159,10 +159,10 @@ public class JsonAbleProcessor extends AbstractProcessor {
                         if (itemTypeElement != null && itemTypeElement.getAnnotation(JSONAble.class) != null) {
                             if (modifiers.isEmpty() || modifiers.contains(Modifier.PRIVATE)) {
                                 Element itemGetMethod = findGetMethod(members, item);
-                                String code = String.format("json.put($S,%s.Json_Able_Util.toJson(source.$L))", getPackageName(itemTypeElement));
+                                String code = String.format("json.put($S,%s.JSONAbleUtil.toJson(source.$L))", getPackageName(itemTypeElement));
                                 methodSpecBuilder.addStatement(code, item.getSimpleName(), itemGetMethod);
                             } else {
-                                String code = String.format("json.put($S,%s.Json_Able_Util.toJson(source.$L))", getPackageName(itemTypeElement));
+                                String code = String.format("json.put($S,%s.JSONAbleUtil.toJson(source.$L))", getPackageName(itemTypeElement));
                                 methodSpecBuilder.addStatement(code, item.getSimpleName(), item);
                             }
                         } else {
@@ -179,7 +179,7 @@ public class JsonAbleProcessor extends AbstractProcessor {
                 methodList.add(methodSpecBuilder.build());
             }
             //generate java file
-            TypeSpec typeSpec = TypeSpec.classBuilder("Json_Able_Util")
+            TypeSpec typeSpec = TypeSpec.classBuilder("JSONAbleUtil")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                     .addMethods(methodList)
                     .build();
