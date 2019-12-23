@@ -45,6 +45,8 @@ public class JsonAbleProcessor extends AbstractProcessor {
     private static final ClassName JSONOBJECT_CLASSNAME = ClassName.get("org.json", "JSONObject");
     private static final ClassName JSONARRAY_CLASSNAME = ClassName.get(" org.json", "JSONArray");
     private static final ClassName JSONEXCEPTION_CLASSNAME = ClassName.get("org.json", "JSONException");
+    private static final ClassName KEEP_CLASSNAME = ClassName.get("androidx.annotation", "Keep");
+
     private static final String COLLECTION_TYPE = Collection.class.getCanonicalName();
     private static final String STRING_TYPE = String.class.getCanonicalName();
 
@@ -181,6 +183,7 @@ public class JsonAbleProcessor extends AbstractProcessor {
             //generate java file
             TypeSpec typeSpec = TypeSpec.classBuilder("JSONAbleUtil")
                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                    .addAnnotation(KEEP_CLASSNAME)
                     .addMethods(methodList)
                     .build();
 
